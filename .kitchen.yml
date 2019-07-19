@@ -1,0 +1,30 @@
+---
+driver:
+  name: terraform
+  variable_files:
+    - terraform.tfvars
+
+provisioner:
+  name: terraform
+
+platforms:
+  - name: terraform
+
+verifier:
+  name: terraform
+  systems:
+    - name: basic
+      backend: local
+      attrs_outputs:
+        dc1-client_pub_ips:  dc1-nomad_client_public_ip
+        dc1-client_tags:     dc1-nomad_client_tags
+        dc1-server_pub_ips:  dc1-nomad_server_public_ip
+        dc1-server_tags:     dc1-nomad_server_tags
+        dc2-client_pub_ips:  dc2-nomad_client_public_ip
+        dc2-client_tags:     dc2-nomad_client_tags
+        dc2-server_pub_ips:  dc2-nomad_server_public_ip
+        dc2-server_tags:     dc2-nomad_server_tags
+        frontend_pub_ip:     frontend_server_public_ip
+
+suites:
+  - name: default
