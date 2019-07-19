@@ -13,15 +13,15 @@
 - Cloudflare subscription as it is used to manage DNS records automatically
 - AWS subscription
 - ssh key
-- Use pre-built nomad server,client and frontend AWS AMIs on `us-east-2` region or bake your own using [Packer](https://www.packer.io)
+- Use pre-built nomad server,client and frontend AWS AMIs on particullar region or bake your own using [Packer](https://www.packer.io)
 
 ## How to run
 
 - Get the repo
 
 ```
-git clone https://github.com/achuchulev/terraform-aws-nomad-2dc-1region.git
-cd terraform-aws-nomad-2dc-1region
+git clone https://github.com/achuchulev/terraform-aws-nomad-multi-region-federation.git
+cd terraform-aws-nomad-multi-region-federation
 ```
 
 - Create `terraform.tfvars` file
@@ -53,18 +53,22 @@ datacenter = "some-nomad-dc" # define the name of 2nd DC
 
 
 ```
-Note: Security group in AWS should allow inbound traffic on ports:
-      
+Note: Inbound traffic on following ports must be allowed:
+      TCP 80 (http)
       TCP 443 (https)
       TCP 4646-4648 (Nomad)
       UDP 4648 (Nomad)
       
 
-      Following immutable infrastructure concept the following AMIs are used:
+      Following immutable infrastructure concept the following AMIs are used in each AWS region:
+      us-east-1
+            Nomad client:    ami-02ffa51d963317aaf ( Ubuntu Xenial with nomad )
+            Nomad server:    ami-0ac8c1373dae0f3e5 ( Ubuntu Xenial with nomad )
       
-      Nomad client:    ami-0e431df20c101e6b7 ( Ubuntu Xenial with nomad )
-      Nomad server:    ami-0e2aa4ea219d7657e ( Ubuntu Xenial with nomad )
-      Frontend server: ami-0352bc96e72c69d2d ( Ubuntu Xenial with nginx )
+      us-east-2
+            Nomad client:    ami-0e431df20c101e6b7 ( Ubuntu Xenial with nomad )
+            Nomad server:    ami-0e2aa4ea219d7657e ( Ubuntu Xenial with nomad )
+            Frontend server: ami-0352bc96e72c69d2d ( Ubuntu Xenial with nginx )
 ```
 
 - Initialize terraform
