@@ -114,7 +114,6 @@ module "dc2-nomad_client" {
   nomad_instance_count = "${var.clients_count}"
   access_key           = "${var.access_key}"
   secret_key           = "${var.secret_key}"
-  ami                  = "${var.region2_client_ami}"
   instance_type        = "${var.instance_type}"
   public_key           = "${var.public_key}"
   subnet_id            = "${var.region2_subnet_id}"
