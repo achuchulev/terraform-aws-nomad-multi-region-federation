@@ -27,31 +27,33 @@ module "nomad_security_groups_region2" {
   aws_vpc_id = "${var.region2_vpc_id}"
 }
 
-# Module that creates Nomad server instances in DC1
+# Module that creates Nomad server instances in AWS region A, Nomad region A and Nomad dc1
 module "dc1-nomad_server" {
   source = "modules/nomad_instance"
 
-  region               = "${var.region}"
-  nomad_region         = "${var.nomad_region}"
-  aws_vpc_id           = "${var.vpc_id}"
-  availability_zone    = "${var.availability_zone}"
-  authoritative_region = "${var.authoritative_region}"
-  ami                  = "${var.server_ami}"
-  nomad_instance_count = "${var.servers_count}"
   access_key           = "${var.access_key}"
   secret_key           = "${var.secret_key}"
+  region               = "${var.region}"
+
+  nomad_instance_count = "${var.servers_count}"
+ 
+  aws_vpc_id           = "${var.vpc_id}"
+  subnet_id            = "${var.subnet_id}"
+  availability_zone    = "${var.availability_zone}"
+  ami                  = "${var.server_ami}"
   instance_type        = "${var.instance_type}"
   public_key           = "${var.public_key}"
-  subnet_id            = "${var.subnet_id}"
   sg_id                = "${module.nomad_security_groups_region1.security_group_id}"
 
-  #vpc_security_group_ids = ["${var.vpc_security_group_ids}"]
+  nomad_region         = "${var.nomad_region}"
+  authoritative_region = "${var.nomad_region}"
+
   domain_name   = "${var.subdomain_name}"
   zone_name     = "${var.cloudflare_zone}"
   secure_gossip = "${random_id.server_gossip.b64_std}"
 }
 
-# Module that creates Nomad server instances in DC2
+# Module that creates Nomad server instances in AWS region B, Nomad region B and Nomad dc1
 module "dc2-nomad_server" {
   source = "modules/nomad_instance"
 
@@ -60,8 +62,8 @@ module "dc2-nomad_server" {
   availability_zone    = "${var.region2_availability_zone}"
   nomad_region         = "${var.region2_nomad_region}"
   ami                  = "${var.region2_server_ami}"
-  dc                   = "${var.datacenter}"
-  authoritative_region = "${var.authoritative_region}"
+  #dc                   = "${var.datacenter}"
+  authoritative_region = "${var.nomad_region}"
   nomad_instance_count = "${var.servers_count}"
   access_key           = "${var.access_key}"
   secret_key           = "${var.secret_key}"
@@ -70,13 +72,12 @@ module "dc2-nomad_server" {
   subnet_id            = "${var.region2_subnet_id}"
   sg_id                = "${module.nomad_security_groups_region2.security_group_id}"
 
-  #vpc_security_group_ids = ["${var.region2_vpc_security_group_ids}"]
   domain_name   = "${var.subdomain_name}"
   zone_name     = "${var.cloudflare_zone}"
   secure_gossip = "${random_id.server_gossip.b64_std}"
 }
 
-# Module that creates Nomad client instances in DC1
+# Module that creates Nomad client instances in AWS region A, Nomad region A and Nomad dc1
 module "dc1-nomad_client" {
   source = "modules/nomad_instance"
 
@@ -94,12 +95,11 @@ module "dc1-nomad_client" {
   subnet_id            = "${var.subnet_id}"
   sg_id                = "${module.nomad_security_groups_region1.security_group_id}"
 
-  #vpc_security_group_ids = ["${var.vpc_security_group_ids}"]
   domain_name = "${var.subdomain_name}"
   zone_name   = "${var.cloudflare_zone}"
 }
 
-# Module that creates Nomad client instances in DC2
+# Module that creates Nomad client instances in AWS region B, Nomad region B and Nomad dc1
 module "dc2-nomad_client" {
   source = "modules/nomad_instance"
 
@@ -107,7 +107,7 @@ module "dc2-nomad_client" {
   aws_vpc_id = "${var.region2_vpc_id}"
 
   availability_zone    = "${var.region2_availability_zone}"
-  dc                   = "${var.datacenter}"
+  #dc                   = "${var.datacenter}"
   ami                  = "${var.region2_client_ami}"
   nomad_region         = "${var.region2_nomad_region}"
   instance_role        = "${var.instance_role}"
@@ -120,7 +120,6 @@ module "dc2-nomad_client" {
   subnet_id            = "${var.region2_subnet_id}"
   sg_id                = "${module.nomad_security_groups_region2.security_group_id}"
 
-  #vpc_security_group_ids = ["${var.region2_vpc_security_group_ids}"]
   domain_name = "${var.subdomain_name}"
   zone_name   = "${var.cloudflare_zone}"
 }
@@ -140,7 +139,6 @@ module "nomad_frontend" {
   subnet_id         = "${var.region2_subnet_id}"
   ami               = "${var.frontend_ami}"
 
-  #vpc_security_group_ids = ["${var.vpc_security_group_ids}"]
   backend_private_ips = "${module.dc1-nomad_server.instance_private_ip}"
   cloudflare_token    = "${var.cloudflare_token}"
   cloudflare_zone     = "${var.cloudflare_zone}"
