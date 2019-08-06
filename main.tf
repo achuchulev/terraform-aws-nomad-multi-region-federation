@@ -124,7 +124,7 @@ module "dc2-nomad_client" {
   domain_name = var.subdomain_name
   zone_name   = var.cloudflare_zone
 }
-
+  
 # Module that creates Nomad frontend instance
 module "nomad_frontend" {
   source = "./modules/nomad_frontend"
