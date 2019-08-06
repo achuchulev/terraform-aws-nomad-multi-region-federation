@@ -7,7 +7,7 @@
 ## Prerequisites
 
 - git
-- terraform (0.11.14)
+- terraform (>= 0.12)
 - own or control registered domain name for the certificate 
 - have a DNS record that associates your domain name and your server’s public IP address
 - Cloudflare subscription as it is used to manage DNS records automatically
