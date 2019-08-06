@@ -2,29 +2,39 @@ variable "nomad_instance_count" {
   default = "3"
 }
 
-variable "access_key" {}
-variable "secret_key" {}
+variable "access_key" {
+}
+
+variable "secret_key" {
+}
 
 variable "instance_role" {
   description = "Nomad instance type"
   default     = "server"
 }
 
-variable "public_key" {}
+variable "public_key" {
+}
 
-variable "region" {}
+variable "region" {
+}
 
-variable "aws_vpc_id" {}
+variable "aws_vpc_id" {
+}
 
-variable "availability_zone" {}
+variable "availability_zone" {
+}
 
 variable "ami" {
   description = "Ubuntu Xenial Nomad Server AMI # dc1 us-east-2"
   default     = "ami-0e2aa4ea219d7657e"
 }
 
-variable "instance_type" {}
-variable "subnet_id" {}
+variable "instance_type" {
+}
+
+variable "subnet_id" {
+}
 
 # variable "vpc_security_group_ids" {
 #   type = "list"
@@ -36,17 +46,17 @@ variable "role_name" {
 }
 
 variable "dc" {
-  type    = "string"
+  type    = string
   default = "dc1"
 }
 
 variable "nomad_region" {
-  type    = "string"
+  type    = string
   default = "global"
 }
 
 variable "authoritative_region" {
-  type    = "string"
+  type    = string
   default = "global"
 }
 
@@ -60,8 +70,12 @@ variable "secure_gossip" {
   default     = "null"
 }
 
-variable "zone_name" {}
+variable "zone_name" {
+}
 
-variable "domain_name" {}
+variable "domain_name" {
+}
 
-variable "sg_id" {}
+variable "sg_id" {
+}
+

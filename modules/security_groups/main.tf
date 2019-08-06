@@ -3,7 +3,7 @@
 resource "aws_security_group" "allow_nomad_traffic_sg" {
   name        = "allow_nomad_traffic_sg"
   description = "Allow traffic needed for Nomad"
-  vpc_id      = "${var.aws_vpc_id}"
+  vpc_id      = var.aws_vpc_id
 
   // ssh
   ingress {
@@ -43,7 +43,8 @@ resource "aws_security_group" "allow_nomad_traffic_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags {
+  tags = {
     Name = "allow_nomad_traffic"
   }
 }
+
