@@ -120,7 +120,7 @@ GEM
       tty-prompt (~> 0.17)
       tty-table (~> 0.10)
     jmespath (1.4.0)
-    json (2.1.0)
+    json (2.3.0)
     jwt (2.2.1)
     kitchen-terraform (4.9.0)
       dry-types (~> 0.14.0)
